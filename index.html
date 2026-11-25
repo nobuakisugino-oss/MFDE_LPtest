@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FDE支援サービス | 丸紅I-DIGIOグループ (FDE Partner Initiative)</title>
+  <meta name="description" content="現場に入り込み、最短で動く成果物を作るテックパートナー。提言で終わらない、丸投げにしない。丸紅I-DIGIOグループのFDE（Forward Deployed Engineer）支援サービス。">
+  
+  <!-- Google Fonts: Inter, Plus Jakarta Sans & Noto Sans JP -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Noto Sans JP"', '"Inter"', 'sans-serif'],
+            display: ['"Plus Jakarta Sans"', '"Inter"', '"Noto Sans JP"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              red: '#C8102E',
+              redDark: '#9E0B22',
+              redLight: '#FDF2F4',
+              navy: '#0F172A',
+              navyLight: '#1E293B',
+              slate: '#334155',
+            }
+          },
+          boxShadow: {
+            'soft': '0 10px 40px -10px rgba(15, 23, 42, 0.08)',
+            'card': '0 4px 20px -2px rgba(15, 23, 42, 0.05)',
+            'glow-red': '0 10px 30px -5px rgba(200, 16, 46, 0.35)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* カスタムアニメーションと微調整 */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .bg-grid-pattern {
+      background-image: radial-gradient(rgba(15, 23, 42, 0.08) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    .bg-grid-dark {
+      background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.7; }
+      50% { transform: scale(1.08); opacity: 0.25; }
+      100% { transform: scale(0.95); opacity: 0.7; }
+    }
+    .animate-pulse-ring {
+      animation: pulse-ring 3.5s infinite ease-in-out;
+    }
+    @keyframes dash-flow {
+      to { stroke-dashoffset: -24; }
+    }
+    .animate-dash {
+      stroke-dasharray: 6 6;
+      animation: dash-flow 1.5s linear infinite;
+    }
+  </style>
+</head>
+<body class="bg-white text-brand-navy font-sans antialiased selection:bg-brand-red selection:text-white overflow-x-hidden">
+
+  <!-- 1. 固定ナビゲーションヘッダー -->
+  <header id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200/80 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <!-- ブランドロゴ -->
+        <a href="#" class="flex items-center gap-3 group">
+          <div class="w-10 h-10 rounded-xl bg-brand-red flex items-center justify-center text-white font-display font-extrabold text-lg shadow-sm group-hover:bg-brand-redDark transition-colors">
+            FDE
+          </div>
+          <div class="flex flex-col">
+            <span class="font-display font-bold text-sm sm:text-base tracking-tight text-brand-navy leading-tight">
+              FDE Partner Initiative
+            </span>
+            <span class="text-[11px] font-medium text-slate-500 tracking-wider uppercase">
+              Marubeni I-DIGIO Group
+            </span>
+          </div>
+        </a>
+
+        <!-- デスクトップナビゲーション -->
+        <nav class="hidden lg:flex items-center gap-8 text-sm font-medium text-slate-600">
+          <a href="#challenges" class="hover:text-brand-red transition-colors py-2">課題 <span class="text-xs text-slate-400 font-display ml-0.5">Challenges</span></a>
+          <a href="#about-fde" class="hover:text-brand-red transition-colors py-2">FDEとは <span class="text-xs text-slate-400 font-display ml-0.5">About</span></a>
+          <a href="#comparison" class="hover:text-brand-red transition-colors py-2">優位性 <span class="text-xs text-slate-400 font-display ml-0.5">Comparison</span></a>
+          <a href="#stance" class="hover:text-brand-red transition-colors py-2">共創スタンス <span class="text-xs text-slate-400 font-display ml-0.5">Stance</span></a>
+          <a href="#workflow" class="hover:text-brand-red transition-colors py-2">導入プロセス <span class="text-xs text-slate-400 font-display ml-0.5">Workflow</span></a>
+        </nav>
+
+        <!-- CTA & モバイルメニューボタン -->
+        <div class="flex items-center gap-3">
+          <a href="#contact" class="hidden sm:inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-brand-red text-white text-sm font-bold hover:bg-brand-redDark transition-all shadow-sm hover:shadow-glow-red">
+            無料相談・お問い合わせ
+          </a>
+          <button id="mobile-menu-btn" type="button" aria-label="メニューを開く" class="lg:hidden p-2.5 rounded-xl text-slate-600 hover:bg-slate-100 focus:outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path id="menu-icon-open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+              <path id="menu-icon-close" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- モバイルドロワーメニュー -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-6 space-y-2 shadow-lg">
+      <a href="#challenges" class="mobile-nav-link block px-4 py-3 rounded-xl text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-brand-red">課題（Challenges）</a>
+      <a href="#about-fde" class="mobile-nav-link block px-4 py-3 rounded-xl text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-brand-red">FDEとは（About FDE）</a>
+      <a href="#comparison" class="mobile-nav-link block px-4 py-3 rounded-xl text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-brand-red">優位性（Comparison）</a>
+      <a href="#stance" class="mobile-nav-link block px-4 py-3 rounded-xl text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-brand-red">共創スタンス（Stance）</a>
+      <a href="#workflow" class="mobile-nav-link block px-4 py-3 rounded-xl text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-brand-red">導入プロセス（Workflow）</a>
+      <div class="pt-2 px-2">
+        <a href="#contact" class="mobile-nav-link block w-full text-center px-5 py-3.5 rounded-xl bg-brand-red text-white font-bold shadow-sm">
+          無料相談・お問い合わせ
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 2. ヒーローセクション（ファーストビュー） -->
+  <section class="relative pt-32 pb-20 lg:pt-40 lg:pb-28 bg-grid-pattern overflow-hidden">
+    <!-- 背景装飾グラデーション -->
+    <div class="absolute top-0 right-0 -translate-y-12 translate-x-1/4 w-[600px] h-[600px] bg-brand-red/5 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute bottom-0 left-0 translate-y-1/4 -translate-x-1/4 w-[500px] h-[500px] bg-slate-900/5 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        
+        <!-- 左側：コピー＆CTA -->
+        <div class="lg:col-span-7 space-y-6">
+          <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-slate-900 text-white text-xs sm:text-sm font-display font-semibold tracking-wide shadow-sm">
+            <span class="w-2 h-2 rounded-full bg-brand-red animate-ping"></span>
+            <span>FORWARD DEPLOYED ENGINEER</span>
+            <span class="text-slate-400">|</span>
+            <span class="text-slate-300">Marubeni I-DIGIO Group</span>
+          </div>
+
+          <h1 class="text-3xl sm:text-5xl lg:text-[52px] font-black text-brand-navy leading-[1.2] tracking-tight">
+            現場に入り込み、<br>
+            <span class="text-brand-red relative inline-block">
+              最短で動く成果物
+              <span class="absolute bottom-1 left-0 w-full h-3 bg-brand-red/10 -z-10 rounded"></span>
+            </span>を作る<br>
+            テックパートナー
+          </h1>
+
+          <p class="text-lg sm:text-xl font-bold text-slate-800 border-l-4 border-brand-red pl-4 py-1">
+            提言で終わらない。丸投げにしない。
+          </p>
+
+          <p class="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl">
+            企業の協力のもと業務改善を最速で具現化するFDE支援サービスのご提案。分厚い仕様書や長期の要件定義を排し、現場の最前線で課題を特定して数日単位でプロトタイプを実装します。
+          </p>
+
+          <div class="pt-4 flex flex-col sm:flex-row gap-4">
+            <a href="#contact" class="inline-flex items-center justify-center px-8 py-4 rounded-2xl bg-brand-red text-white font-bold text-base hover:bg-brand-redDark transition-all shadow-glow-red group">
+              <span>サービス資料請求・無料相談</span>
+              <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+              </svg>
+            </a>
+            <a href="#about-fde" class="inline-flex items-center justify-center px-8 py-4 rounded-2xl bg-white text-brand-navy border-2 border-slate-200 font-bold text-base hover:border-brand-navy hover:bg-slate-50 transition-all">
+              FDEとは何かを知る
+            </a>
+          </div>
+
+          <!-- 信頼指標バッジ -->
+          <div class="pt-6 border-t border-slate-200/80 grid grid-cols-3 gap-4 max-w-lg">
+            <div>
+              <p class="text-xs text-slate-500 font-medium">検証スピード</p>
+              <p class="text-lg sm:text-xl font-extrabold text-brand-navy font-display">数日単位<span class="text-xs font-normal text-slate-600 ml-1">で構築</span></p>
+            </div>
+            <div>
+              <p class="text-xs text-slate-500 font-medium">開発体制</p>
+              <p class="text-lg sm:text-xl font-extrabold text-brand-navy font-display">現場常駐<span class="text-xs font-normal text-slate-600 ml-1">＋組織支援</span></p>
+            </div>
+            <div>
+              <p class="text-xs text-slate-500 font-medium">プロジェクトゴール</p>
+              <p class="text-lg sm:text-xl font-extrabold text-brand-red font-display">完全内製化<span class="text-xs font-normal text-slate-600 ml-1">・自走</span></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右側：FDE連携エコシステム SVG/CSS ダイアグラム -->
+        <div class="lg:col-span-5">
+          <div class="relative bg-white rounded-3xl p-6 sm:p-8 shadow-soft border border-slate-200/80">
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-xs font-display font-bold uppercase tracking-wider text-slate-400">FDE Deployment Architecture</span>
+              <span class="inline-flex items-center gap-1.5 text-xs font-bold text-brand-red bg-brand-redLight px-3 py-1 rounded-full">
+                <span class="w-1.5 h-1.5 rounded-full bg-brand-red"></span> リアルタイム共創
+              </span>
+            </div>
+
+            <!-- 洗練されたSVGダイアグラム -->
+            <div class="relative w-full aspect-[4/4.2] flex items-center justify-center">
+              <svg viewBox="0 0 400 420" class="w-full h-full overflow-visible" aria-label="現場・FDEエンジニア・丸紅I-DIGIO専門チームの連携図">
+                <defs>
+                  <linearGradient id="navyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#0F172A"/>
+                    <stop offset="100%" stop-color="#1E293B"/>
+                  </linearGradient>
+                  <linearGradient id="redGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#C8102E"/>
+                    <stop offset="100%" stop-color="#9E0B22"/>
+                  </linearGradient>
+                  <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">
+                    <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#0F172A" flood-opacity="0.1"/>
+                  </filter>
+                </defs>
+
+                <!-- 背景の同心円リング -->
+                <circle cx="200" cy="210" r="165" fill="none" stroke="#E2E8F0" stroke-width="1.5" stroke-dasharray="4 4"/>
+                <circle cx="200" cy="210" r="110" fill="none" stroke="#CBD5E1" stroke-width="1"/>
+
+                <!-- 接続アニメーションライン -->
+                <!-- 現場 <-> FDE -->
+                <path d="M 200 105 L 200 165" stroke="#C8102E" stroke-width="3" class="animate-dash"/>
+                <!-- FDE <-> 丸紅I-DIGIO -->
+                <path d="M 200 255 L 200 315" stroke="#0F172A" stroke-width="3" class="animate-dash"/>
+                <!-- フィードバックループ弧 -->
+                <path d="M 295 85 C 365 130, 365 210, 290 215" fill="none" stroke="#C8102E" stroke-width="2" stroke-linecap="round" marker-end="url(#arrowRed)"/>
+                <path d="M 105 215 C 35 210, 35 130, 105 85" fill="none" stroke="#0F172A" stroke-width="2" stroke-linecap="round"/>
+
+                <!-- ノード1（上部）：クライアント企業の現場 -->
+                <g transform="translate(65, 20)" filter="url(#cardShadow)">
+                  <rect x="0" y="0" width="270" height="82" rx="16" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="2"/>
+                  <rect x="14" y="16" width="50" height="50" rx="12" fill="#F1F5F9"/>
+                  <!-- ビル・現場アイコン -->
+                  <path d="M31 52V32L39 27L47 32V52M36 37H42M36 43H42" stroke="#0F172A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                  <text x="76" y="36" font-size="11" font-weight="700" fill="#64748B" font-family="Plus Jakarta Sans, sans-serif">CLIENT FRONT-LINE</text>
+                  <text x="76" y="57" font-size="15" font-weight="800" fill="#0F172A" font-family="Noto Sans JP, sans-serif">貴社の業務現場・事業部門</text>
+                </g>
+
+                <!-- ノード2（中央コア）：FDEエンジニア -->
+                <g transform="translate(50, 160)" filter="url(#cardShadow)">
+                  <rect x="-6" y="-6" width="312" height="104" rx="22" fill="#C8102E" opacity="0.12" class="animate-pulse-ring"/>
+                  <rect x="0" y="0" width="300" height="92" rx="18" fill="url(#redGrad)"/>
+                  <circle cx="48" cy="46" r="26" fill="#FFFFFF" fill-opacity="0.18"/>
+                  <!-- コード/稲妻アイコン -->
+                  <path d="M44 34L36 46L44 58M52 34L60 46L52 58" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                  <text x="86" y="32" font-size="11" font-weight="700" fill="#FECDD3" font-family="Plus Jakarta Sans, sans-serif">FORWARD DEPLOYED ENGINEER</text>
+                  <text x="86" y="54" font-size="17" font-weight="900" fill="#FFFFFF" font-family="Noto Sans JP, sans-serif">現場常駐 FDE人材</text>
+                  <text x="86" y="74" font-size="11.5" font-weight="500" fill="#FFE4E6" font-family="Noto Sans JP, sans-serif">真因特定 × 数日単位プロトタイプ実装</text>
+                </g>
+
+                <!-- ノード3（下部）：丸紅I-DIGIO 専門チーム -->
+                <g transform="translate(55, 310)" filter="url(#cardShadow)">
+                  <rect x="0" y="0" width="290" height="86" rx="16" fill="url(#navyGrad)"/>
+                  <rect x="14" y="18" width="50" height="50" rx="12" fill="#FFFFFF" fill-opacity="0.1"/>
+                  <!-- ネットワーク/盾アイコン -->
+                  <path d="M39 29L51 34V43C51 50.5 45.8 57.2 39 59C32.2 57.2 27 50.5 27 43V34L39 29Z" stroke="#FFFFFF" stroke-width="2.2" stroke-linejoin="round" fill="none"/>
+                  <text x="76" y="36" font-size="10.5" font-weight="700" fill="#94A3B8" font-family="Plus Jakarta Sans, sans-serif">MARUBENI I-DIGIO BACKUP</text>
+                  <text x="76" y="57" font-size="15" font-weight="800" fill="#FFFFFF" font-family="Noto Sans JP, sans-serif">丸紅I-DIGIO 専門技術チーム</text>
+                  <text x="76" y="74" font-size="11" font-weight="400" fill="#CBD5E1" font-family="Noto Sans JP, sans-serif">AI・クラウド・アーキテクチャの組織力</text>
+                </g>
+
+                <!-- 左右のサイクルラベル -->
+                <g transform="translate(312, 132)">
+                  <rect x="0" y="0" width="76" height="24" rx="12" fill="#FDF2F4" stroke="#FECDD3"/>
+                  <text x="38" y="16" text-anchor="middle" font-size="10.5" font-weight="700" fill="#C8102E" font-family="Noto Sans JP, sans-serif">即時実証</text>
+                </g>
+                <g transform="translate(12, 132)">
+                  <rect x="0" y="0" width="76" height="24" rx="12" fill="#F1F5F9" stroke="#CBD5E1"/>
+                  <text x="38" y="16" text-anchor="middle" font-size="10.5" font-weight="700" fill="#0F172A" font-family="Noto Sans JP, sans-serif">課題抽出</text>
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. CURRENT CHALLENGES（DX・システム開発における4つの停滞） -->
+  <section id="challenges" class="py-20 lg:py-28 bg-slate-50 border-y border-slate-200/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl mx-auto text-center mb-16 reveal">
+        <span class="inline-block font-display text-xs sm:text-sm font-extrabold tracking-widest uppercase text-brand-red mb-3">
+          CURRENT CHALLENGES
+        </span>
+        <h2 class="text-2xl sm:text-4xl font-black text-brand-navy tracking-tight mb-4">
+          DX・システム開発における<span class="text-brand-red">4つの停滞</span>
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600">
+          従来の外部委託やコンサルティングでは解消できない、現場のリアルなボトルネックが存在します。
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+        <!-- Card 01 -->
+        <div class="reveal bg-white rounded-3xl p-7 shadow-card border border-slate-200/70 hover:border-brand-red/40 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-center justify-between mb-6">
+              <span class="font-display text-3xl font-extrabold text-slate-200 group-hover:text-brand-red transition-colors">01</span>
+              <div class="w-12 h-12 rounded-2xl bg-slate-100 group-hover:bg-brand-redLight flex items-center justify-center text-brand-navy group-hover:text-brand-red transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+              </div>
+            </div>
+            <h3 class="text-xl font-bold text-brand-navy mb-3">戦略のみで停止</h3>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              提言のみで導入に向けた具体的計画やテストが行われず、美しいスライド資料や「絵に描いた餅」で終わってしまう。
+            </p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-slate-100 text-xs font-bold text-slate-400 group-hover:text-brand-red transition-colors">
+            # 実行フェーズへの断絶
+          </div>
+        </div>
+
+        <!-- Card 02 -->
+        <div class="reveal bg-white rounded-3xl p-7 shadow-card border border-slate-200/70 hover:border-brand-red/40 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group" style="transition-delay: 100ms;">
+          <div>
+            <div class="flex items-center justify-between mb-6">
+              <span class="font-display text-3xl font-extrabold text-slate-200 group-hover:text-brand-red transition-colors">02</span>
+              <div class="w-12 h-12 rounded-2xl bg-slate-100 group-hover:bg-brand-redLight flex items-center justify-center text-brand-navy group-hover:text-brand-red transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+              </div>
+            </div>
+            <h3 class="text-xl font-bold text-brand-navy mb-3">要件定義の長期化</h3>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              企業や現場の課題を全て解決しようと綿密な計画を作り込み、開発着手までに膨大な時間とコストがかかってしまう。
+            </p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-slate-100 text-xs font-bold text-slate-400 group-hover:text-brand-red transition-colors">
+            # スピード感の喪失
+          </div>
+        </div>
+
+        <!-- Card 03 -->
+        <div class="reveal bg-white rounded-3xl p-7 shadow-card border border-slate-200/70 hover:border-brand-red/40 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group" style="transition-delay: 200ms;">
+          <div>
+            <div class="flex items-center justify-between mb-6">
+              <span class="font-display text-3xl font-extrabold text-slate-200 group-hover:text-brand-red transition-colors">03</span>
+              <div class="w-12 h-12 rounded-2xl bg-slate-100 group-hover:bg-brand-redLight flex items-center justify-center text-brand-navy group-hover:text-brand-red transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>
+              </div>
+            </div>
+            <h3 class="text-xl font-bold text-brand-navy mb-3">現場との乖離</h3>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              様々な粒度の問題や課題が存在し、ヒアリングで言語化できる課題だけでなく現場でも意識されていない真因が埋もれる。
+            </p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-slate-100 text-xs font-bold text-slate-400 group-hover:text-brand-red transition-colors">
+            # 使われないシステムの誕生
+          </div>
+        </div>
+
+        <!-- Card 04 -->
+        <div class="reveal bg-white rounded-3xl p-7 shadow-card border border-slate-200/70 hover:border-brand-red/40 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group" style="transition-delay: 300ms;">
+          <div>
+            <div class="flex items-center justify-between mb-6">
+              <span class="font-display text-3xl font-extrabold text-slate-200 group-hover:text-brand-red transition-colors">04</span>
+              <div class="w-12 h-12 rounded-2xl bg-slate-100 group-hover:bg-brand-redLight flex items-center justify-center text-brand-navy group-hover:text-brand-red transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                </svg>
+              </div>
+            </div>
+            <h3 class="text-xl font-bold text-brand-navy mb-3">ブラックボックス化</h3>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              担当によって業務の進め方がまばらで、外部ベンダーに任せきりにすることで社内に技術知見や改善ノウハウが残らない。
+            </p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-slate-100 text-xs font-bold text-slate-400 group-hover:text-brand-red transition-colors">
+            # 永続的な外部依存
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. CONCEPT DEFINITION（FDEとは何か） -->
+  <section id="about-fde" class="py-20 lg:py-28 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- セクションヘッダー -->
+      <div class="max-w-4xl mx-auto text-center mb-16 reveal">
+        <span class="inline-block font-display text-xs sm:text-sm font-extrabold tracking-widest uppercase text-brand-red mb-3">
+          CONCEPT DEFINITION
+        </span>
+        <h2 class="text-2xl sm:text-4xl font-black text-brand-navy tracking-tight mb-6">
+          FDE（Forward Deployed Engineer）とは
+        </h2>
+        <div class="inline-block bg-slate-900 text-white rounded-2xl px-6 py-4 sm:px-10 sm:py-5 shadow-soft">
+          <p class="text-base sm:text-xl font-bold leading-snug">
+            <span class="text-brand-red font-extrabold">事業理解力</span>と<span class="text-brand-red font-extrabold">超高速実装力</span>を兼ね備え、<br class="hidden sm:inline">
+            顧客の最前線に展開するエンジニア
+          </p>
+        </div>
+      </div>
+
+      <!-- 3つのコアバリュー -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+        <!-- Value 01 -->
+        <div class="reveal relative bg-white rounded-3xl p-8 border-2 border-slate-100 shadow-card hover:border-brand-navy transition-all">
+          <div class="w-14 h-14 rounded-2xl bg-brand-navy text-white font-display font-extrabold text-xl flex items-center justify-center mb-6 shadow-md">
+            01
+          </div>
+          <h3 class="text-xl font-extrabold text-brand-navy mb-3">
+            現場常駐型の共同推進
+          </h3>
+          <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+            会議室ではなく現場で直接課題を抽出。業務フローを肌で理解しながら、背後の丸紅I-DIGIO専門チームとも連携し最適解を導きます。
+          </p>
+        </div>
+
+        <!-- Value 02 -->
+        <div class="reveal relative bg-white rounded-3xl p-8 border-2 border-slate-100 shadow-card hover:border-brand-red transition-all" style="transition-delay: 100ms;">
+          <div class="w-14 h-14 rounded-2xl bg-brand-red text-white font-display font-extrabold text-xl flex items-center justify-center mb-6 shadow-glow-red">
+            02
+          </div>
+          <h3 class="text-xl font-extrabold text-brand-navy mb-3">
+            動くプロトタイプの即時検証
+          </h3>
+          <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+            数日単位でテスト環境を構築し現場実証。机上の議論ではなく「実際に使ってみながら改善を重ねる」超高速サイクルを実現します。
+          </p>
+        </div>
+
+        <!-- Value 03 -->
+        <div class="reveal relative bg-white rounded-3xl p-8 border-2 border-slate-100 shadow-card hover:border-brand-navy transition-all" style="transition-delay: 200ms;">
+          <div class="w-14 h-14 rounded-2xl bg-brand-navy text-white font-display font-extrabold text-xl flex items-center justify-center mb-6 shadow-md">
+            03
+          </div>
+          <h3 class="text-xl font-extrabold text-brand-navy mb-3">
+            完全内製化・自走支援
+          </h3>
+          <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+            開発した知見とコード資産をすべて企業側へ移管。ブラックボックスを作らず、プロジェクト終了後も貴社チームが自走できる体制を構築します。
+          </p>
+        </div>
+      </div>
+
+      <!-- ハイライトバナー：FDE人材 × 丸紅I-DIGIOの組織力 -->
+      <div class="reveal rounded-3xl bg-gradient-to-r from-brand-navy via-slate-900 to-brand-navyLight p-8 sm:p-12 text-white relative overflow-hidden shadow-soft">
+        <div class="absolute right-0 top-0 bottom-0 w-1/3 bg-brand-red/15 skew-x-12 translate-x-12 pointer-events-none"></div>
+        <div class="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+          <div class="space-y-3 max-w-3xl">
+            <div class="inline-flex items-center gap-2 text-xs font-display font-bold uppercase tracking-widest text-rose-400">
+              <span class="w-2 h-2 rounded-full bg-brand-red"></span>
+              SYNERGY OF INDIVIDUAL &amp; ORGANIZATION
+            </div>
+            <h3 class="text-2xl sm:text-3xl font-black leading-tight">
+              現場に寄り添うFDE人材 <span class="text-brand-red mx-1">×</span> 丸紅I-DIGIOの組織力
+            </h3>
+            <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+              現場の声を直接聴くFDE人材の背後で、丸紅I-DIGIOの専門チーム（クラウド・AI・セキュリティ・データ基盤等のスペシャリスト集団）が強力にバックアップ。個人の機動力とエンタープライズ品質の組織力を両立します。
+            </p>
+          </div>
+          <div class="shrink-0">
+            <a href="#contact" class="inline-flex items-center justify-center px-6 py-3.5 rounded-xl bg-white text-brand-navy font-bold text-sm hover:bg-slate-100 transition-colors shadow-sm">
+              支援体制について相談する
+              <svg class="w-4 h-4 ml-2 text-brand-red" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. POSITIONING MATRIX（既存支援モデルとの比較優位性） -->
+  <section id="comparison" class="py-20 lg:py-28 bg-slate-50 border-y border-slate-200/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl mx-auto text-center mb-14 reveal">
+        <span class="inline-block font-display text-xs sm:text-sm font-extrabold tracking-widest uppercase text-brand-red mb-3">
+          POSITIONING MATRIX
+        </span>
+        <h2 class="text-2xl sm:text-4xl font-black text-brand-navy tracking-tight mb-4">
+          既存支援モデルとの比較優位性
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600">
+          コンサルティングと受託開発の「空白地帯」を埋める新しいアプローチ。<br class="hidden sm:inline">
+          各モデルを選択して詳細を比較できます。
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center reveal">
+        <!-- 左側：インタラクティブ4象限マトリクス -->
+        <div class="lg:col-span-7 bg-white rounded-3xl p-5 sm:p-8 shadow-soft border border-slate-200/80">
+          <!-- 上軸ラベル -->
+          <div class="text-center mb-3">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-navy text-white text-xs font-bold">
+              ▲ 事業・業務課題への深い踏み込み（伴走・内製化）
+            </span>
+          </div>
+
+          <div class="relative py-4">
+            <!-- 十字軸ライン -->
+            <div class="absolute inset-y-2 left-1/2 -translate-x-1/2 w-0.5 bg-slate-200 pointer-events-none"></div>
+            <div class="absolute inset-x-2 top-1/2 -translate-y-1/2 h-0.5 bg-slate-200 pointer-events-none"></div>
+
+            <!-- 4象限グリッド -->
+            <div class="grid grid-cols-2 gap-3 sm:gap-5 relative z-10">
+              
+              <!-- 左上：戦略・ITコンサルティング -->
+              <button type="button" data-model="consulting" class="matrix-card text-left p-4 sm:p-5 rounded-2xl border-2 border-slate-200 bg-slate-50/80 hover:border-slate-400 transition-all focus:outline-none">
+                <span class="inline-block text-[10px] font-display font-bold uppercase tracking-wider text-slate-400 mb-1">Model A</span>
+                <h3 class="text-sm sm:text-base font-bold text-slate-800 mb-2">戦略・ITコンサルティング</h3>
+                <ul class="text-xs text-slate-600 space-y-1 hidden sm:block">
+                  <li>・上流の課題整理や提言書作成が得意</li>
+                  <li>・実装や定着は顧客・別ベンダー任せ</li>
+                </ul>
+              </button>
+
+              <!-- 右上：当社のFDE支援サービス（ハイライト） -->
+              <button type="button" data-model="fde" class="matrix-card active-matrix text-left p-4 sm:p-5 rounded-2xl border-2 border-brand-red bg-brand-redLight/60 shadow-glow-red transition-all focus:outline-none relative overflow-hidden">
+                <div class="flex items-center justify-between mb-1">
+                  <span class="inline-block text-[10px] font-display font-extrabold uppercase tracking-wider text-brand-red">OUR SOLUTION</span>
+                  <span class="text-brand-red text-sm">★</span>
+                </div>
+                <h3 class="text-sm sm:text-base font-black text-brand-navy mb-2">当社のFDE支援サービス</h3>
+                <ul class="text-xs text-slate-700 font-medium space-y-1 hidden sm:block">
+                  <li>・現場に入り込み真因特定＋即座に実装</li>
+                  <li>・丸紅I-DIGIOの知見で顧客自走まで完遂</li>
+                </ul>
+              </button>
+
+              <!-- 左下：従来型SIer・受託開発 -->
+              <button type="button" data-model="sier" class="matrix-card text-left p-4 sm:p-5 rounded-2xl border-2 border-slate-200 bg-slate-50/80 hover:border-slate-400 transition-all focus:outline-none">
+                <span class="inline-block text-[10px] font-display font-bold uppercase tracking-wider text-slate-400 mb-1">Model B</span>
+                <h3 class="text-sm sm:text-base font-bold text-slate-800 mb-2">従来型SIer・受託開発</h3>
+                <ul class="text-xs text-slate-600 space-y-1 hidden sm:block">
+                  <li>・分厚い要件定義書を前提とした大規模開発</li>
+                  <li>・仕様変更に弱く、現場との乖離が起きやすい</li>
+                </ul>
+              </button>
+
+              <!-- 右下：SES・スポット技術派遣 -->
+              <button type="button" data-model="ses" class="matrix-card text-left p-4 sm:p-5 rounded-2xl border-2 border-slate-200 bg-slate-50/80 hover:border-slate-400 transition-all focus:outline-none">
+                <span class="inline-block text-[10px] font-display font-bold uppercase tracking-wider text-slate-400 mb-1">Model C</span>
+                <h3 class="text-sm sm:text-base font-bold text-slate-800 mb-2">SES・スポット技術派遣</h3>
+                <ul class="text-xs text-slate-600 space-y-1 hidden sm:block">
+                  <li>・指示された作業の実装リソース補充</li>
+                  <li>・課題抽出や組織の自走化までは担わない</li>
+                </ul>
+              </button>
+
+            </div>
+          </div>
+
+          <!-- 横軸ラベル -->
+          <div class="flex items-center justify-between text-[11px] sm:text-xs font-bold text-slate-500 mt-1 mb-3 px-1">
+            <span>◀ 提言・ドキュメント中心</span>
+            <span class="text-brand-red">現場実装・高速プロトタイプ ▶</span>
+          </div>
+
+          <!-- 下軸ラベル -->
+          <div class="text-center">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-200 text-slate-600 text-xs font-bold">
+              ▼ 確定仕様に基づく部分最適・単発開発
+            </span>
+          </div>
+        </div>
+
+        <!-- 右側：選択モデルの詳細比較パネル -->
+        <div class="lg:col-span-5">
+          <div id="matrix-detail-panel" class="bg-brand-navy text-white rounded-3xl p-7 sm:p-9 shadow-soft border border-slate-800 transition-all">
+            <div class="flex items-center justify-between mb-4">
+              <span id="detail-badge" class="px-3 py-1 rounded-full bg-brand-red text-white text-xs font-bold tracking-wide">
+                ★ 推奨アプローチ
+              </span>
+              <span class="text-xs text-slate-400">マトリクスをクリックして切替</span>
+            </div>
+            <h3 id="detail-title" class="text-2xl font-black mb-4">
+              当社のFDE支援サービス
+            </h3>
+            <p id="detail-desc" class="text-slate-300 text-sm sm:text-base leading-relaxed mb-6">
+              戦略コンサルティングの「業務課題への深い洞察」と、エンジニアリングの「高速実装力」を融合。現場の最前線に常駐し、仕様書作成に時間をかけることなく動くプロトタイプで業務を前進させます。
+            </p>
+            <div class="space-y-3 pt-4 border-t border-slate-700/80" id="detail-points">
+              <div class="flex items-start gap-3">
+                <span class="w-5 h-5 rounded-full bg-brand-red/20 text-brand-red flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">✓</span>
+                <span class="text-sm text-slate-200"><strong>立ち上がり速度：</strong>数日単位で動くプロトタイプを構築</span>
+              </div>
+              <div class="flex items-start gap-3">
+                <span class="w-5 h-5 rounded-full bg-brand-red/20 text-brand-red flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">✓</span>
+                <span class="text-sm text-slate-200"><strong>柔軟性：</strong>現場のフィードバックを即座に反映</span>
+              </div>
+              <div class="flex items-start gap-3">
+                <span class="w-5 h-5 rounded-full bg-brand-red/20 text-brand-red flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">✓</span>
+                <span class="text-sm text-slate-200"><strong>資産化：</strong>ソースコードと知見をすべて移管し内製化</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. COLLABORATION STANCE（成果を最大化する共創のスタンス） -->
+  <section id="stance" class="py-20 lg:py-28 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl mx-auto text-center mb-16 reveal">
+        <span class="inline-block font-display text-xs sm:text-sm font-extrabold tracking-widest uppercase text-brand-red mb-3">
+          COLLABORATION STANCE
+        </span>
+        <h2 class="text-2xl sm:text-4xl font-black text-brand-navy tracking-tight mb-4">
+          成果を最大化する共創のスタンス
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600">
+          発注者と受注者という下請け関係ではなく、<br class="hidden sm:inline">
+          ひとつの技術チームとしてのパートナーシップを築きます。
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-11 gap-6 lg:gap-4 items-stretch reveal">
+        
+        <!-- BEFORE：従来の委託関係 -->
+        <div class="lg:col-span-5 bg-slate-100 rounded-3xl p-7 sm:p-9 border border-slate-200 flex flex-col justify-between">
+          <div>
+            <div class="inline-block px-3.5 py-1 rounded-full bg-slate-300 text-slate-700 font-display text-xs font-extrabold tracking-wider mb-4">
+              BEFORE：従来の委託関係
+            </div>
+            <h3 class="text-xl sm:text-2xl font-bold text-slate-700 mb-3">
+              厚い壁とドキュメント越しに<br>タスクを投げ合う分断構造
+            </h3>
+
+            <!-- 分断ビジュアルイラスト（SVG） -->
+            <div class="my-6 bg-white/80 rounded-2xl p-4 border border-slate-200/80">
+              <svg viewBox="0 0 320 110" class="w-full h-28">
+                <!-- 左側：発注者 -->
+                <circle cx="65" cy="42" r="14" fill="#94A3B8"/>
+                <path d="M43 85 C43 68, 87 68, 87 85" fill="#94A3B8"/>
+                <text x="65" y="102" text-anchor="middle" font-size="10" font-weight="700" fill="#64748B">貴社（発注側）</text>
+                
+                <!-- 中央の厚い壁 -->
+                <rect x="150" y="12" width="20" height="82" rx="3" fill="#475569"/>
+                <line x1="150" y1="32" x2="170" y2="32" stroke="#CBD5E1" stroke-width="1.5"/>
+                <line x1="150" y1="52" x2="170" y2="52" stroke="#CBD5E1" stroke-width="1.5"/>
+                <line x1="150" y1="72" x2="170" y2="72" stroke="#CBD5E1" stroke-width="1.5"/>
+                <!-- 投げられる仕様書 -->
+                <path d="M95 35 Q160 5 220 35" fill="none" stroke="#94A3B8" stroke-width="2" stroke-dasharray="4 4"/>
+                <rect x="148" y="2" width="24" height="16" rx="2" fill="#CBD5E1"/>
+
+                <!-- 右側：ベンダー -->
+                <circle cx="255" cy="42" r="14" fill="#94A3B8"/>
+                <path d="M233 85 C233 68, 277 68, 277 85" fill="#94A3B8"/>
+                <text x="255" y="102" text-anchor="middle" font-size="10" font-weight="700" fill="#64748B">外部ベンダー</text>
+              </svg>
+            </div>
+
+            <ul class="space-y-4 text-sm sm:text-base text-slate-600">
+              <li class="flex items-start gap-3">
+                <span class="w-6 h-6 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">✕</span>
+                <div>
+                  <strong class="text-slate-800">分厚い仕様書：</strong>事前の完全な要件確定を義務付け
+                </div>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="w-6 h-6 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">✕</span>
+                <div>
+                  <strong class="text-slate-800">契約の壁：</strong>現場の気づきによる仕様変更のたびに追加見積
+                </div>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="w-6 h-6 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">✕</span>
+                <div>
+                  <strong class="text-slate-800">丸投げ体質：</strong>開発プロセスが見えず自社にノウハウが蓄積しない
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 中央矢印 -->
+        <div class="lg:col-span-1 flex items-center justify-center py-2">
+          <div class="w-12 h-12 rounded-full bg-brand-red text-white flex items-center justify-center shadow-glow-red rotate-90 lg:rotate-0">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
+            </svg>
+          </div>
+        </div>
+
+        <!-- AFTER：FDE共創モデル -->
+        <div class="lg:col-span-5 bg-brand-navy text-white rounded-3xl p-7 sm:p-9 border-2 border-brand-red shadow-soft flex flex-col justify-between relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-40 h-40 bg-brand-red/10 rounded-full blur-2xl pointer-events-none"></div>
+          <div>
+            <div class="inline-block px-3.5 py-1 rounded-full bg-brand-red text-white font-display text-xs font-extrabold tracking-wider mb-4">
+              AFTER：FDE共創モデル
+            </div>
+            <h3 class="text-xl sm:text-2xl font-black text-white mb-3">
+              同じテーブルで高速改善を回し<br>技術と知見を直接バトンパス
+            </h3>
+
+            <!-- 共創ビジュアルイラスト（SVG） -->
+            <div class="my-6 bg-slate-800/80 rounded-2xl p-4 border border-slate-700">
+              <svg viewBox="0 0 320 110" class="w-full h-28">
+                <!-- 高速アジャイルループ円 -->
+                <ellipse cx="160" cy="52" rx="95" ry="38" fill="none" stroke="#C8102E" stroke-width="2.5" class="animate-dash"/>
+                <!-- 左側：貴社メンバー -->
+                <circle cx="95" cy="45" r="14" fill="#FFFFFF"/>
+                <path d="M73 86 C73 69, 117 69, 117 86" fill="#FFFFFF"/>
+                <text x="95" y="102" text-anchor="middle" font-size="10" font-weight="700" fill="#E2E8F0">貴社チーム</text>
+
+                <!-- 中央：バトンパス / プロトタイプ -->
+                <rect x="144" y="38" width="32" height="22" rx="4" fill="#C8102E"/>
+                <path d="M152 49 L158 54 L168 44" stroke="#FFFFFF" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+
+                <!-- 右側：FDEエンジニア -->
+                <circle cx="225" cy="45" r="14" fill="#C8102E"/>
+                <path d="M203 86 C203 69, 247 69, 247 86" fill="#C8102E"/>
+                <text x="225" y="102" text-anchor="middle" font-size="10" font-weight="700" fill="#FECDD3">FDEエンジニア</text>
+              </svg>
+            </div>
+
+            <ul class="space-y-4 text-sm sm:text-base text-slate-200">
+              <li class="flex items-start gap-3">
+                <span class="w-6 h-6 rounded-full bg-brand-red text-white flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">✔</span>
+                <div>
+                  <strong class="text-white">仕様書不要：</strong>現場のリアルな課題認識から即スタート
+                </div>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="w-6 h-6 rounded-full bg-brand-red text-white flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">✔</span>
+                <div>
+                  <strong class="text-white">アジャイル改善：</strong>その場での調整・方針転換を歓迎
+                </div>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="w-6 h-6 rounded-full bg-brand-red text-white flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">✔</span>
+                <div>
+                  <strong class="text-white">自立伴走：</strong>開発した技術とノウハウを顧客チームへ完全伝承
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. SPECIFIC WORKFLOW（業務改善までの道のり） -->
+  <section id="workflow" class="py-20 lg:py-28 bg-brand-navy text-white bg-grid-dark relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="max-w-3xl mx-auto text-center mb-16 reveal">
+        <span class="inline-block font-display text-xs sm:text-sm font-extrabold tracking-widest uppercase text-rose-400 mb-3">
+          SPECIFIC WORKFLOW
+        </span>
+        <h2 class="text-2xl sm:text-4xl font-black text-white tracking-tight mb-4">
+          業務改善までの道のり
+        </h2>
+        <p class="text-base sm:text-lg text-slate-300">
+          現場フィードバックを即座に反映し、3フェーズを高速回転させて成果を最大化。<br class="hidden sm:inline">
+          課題の探索から現場への展開までワンストップで推進します。
+        </p>
+      </div>
+
+      <!-- 3フェーズプロセス -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch mb-16 reveal">
+        
+        <!-- PHASE 01 -->
+        <div class="lg:col-span-3 bg-slate-900/90 border border-slate-700 rounded-3xl p-6 sm:p-7 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="px-3 py-1 rounded-lg bg-slate-800 text-slate-300 font-display text-xs font-extrabold">PHASE 01</span>
+              <span class="text-xs text-slate-400">Discovery</span>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-6">事業の分析</h3>
+            <div class="space-y-3">
+              <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 flex items-center gap-3">
+                <span class="w-7 h-7 rounded-full bg-white text-brand-navy font-display font-extrabold text-xs flex items-center justify-center shrink-0">1</span>
+                <div>
+                  <p class="font-bold text-sm text-white">現状分析</p>
+                  <p class="text-xs text-slate-400">現場業務の観察とデータ把握</p>
+                </div>
+              </div>
+              <div class="flex justify-center">
+                <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+              </div>
+              <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 flex items-center gap-3">
+                <span class="w-7 h-7 rounded-full bg-white text-brand-navy font-display font-extrabold text-xs flex items-center justify-center shrink-0">2</span>
+                <div>
+                  <p class="font-bold text-sm text-white">課題抽出</p>
+                  <p class="text-xs text-slate-400">現場も気づかない真因の特定</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-6 pt-4 border-t border-slate-800 text-xs text-slate-400">
+            最短数日でコア課題を定義
+          </div>
+        </div>
+
+        <!-- PHASE 02（高速反復ループ） -->
+        <div class="lg:col-span-6 bg-gradient-to-b from-slate-900 to-slate-900/95 border-2 border-brand-red rounded-3xl p-6 sm:p-8 shadow-glow-red relative">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+            <div class="flex items-center gap-2">
+              <span class="px-3 py-1 rounded-lg bg-brand-red text-white font-display text-xs font-extrabold">PHASE 02</span>
+              <span class="px-2.5 py-1 rounded-full bg-brand-red/20 text-rose-300 text-xs font-bold">↻ 高速反復ループ</span>
+            </div>
+            <span class="text-xs text-rose-300 font-display font-semibold">Agile Prototyping</span>
+          </div>
+          <h3 class="text-xl sm:text-2xl font-black text-white mb-6">ソリューションの開発</h3>
+
+          <!-- 6ステップ循環グリッド -->
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <div class="p-3.5 rounded-2xl bg-slate-800/90 border border-slate-700 hover:border-brand-red transition-colors">
+              <span class="inline-block font-display text-xs font-extrabold text-brand-red mb-1">STEP 3</span>
+              <p class="font-bold text-sm text-white">考案</p>
+              <p class="text-[11px] text-slate-400 mt-0.5">解決策の即時設計</p>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-slate-800/90 border border-slate-700 hover:border-brand-red transition-colors">
+              <span class="inline-block font-display text-xs font-extrabold text-brand-red mb-1">STEP 4</span>
+              <p class="font-bold text-sm text-white">分析</p>
+              <p class="text-[11px] text-slate-400 mt-0.5">技術・業務適合性評価</p>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-slate-800/90 border border-slate-700 hover:border-brand-red transition-colors">
+              <span class="inline-block font-display text-xs font-extrabold text-brand-red mb-1">STEP 5</span>
+              <p class="font-bold text-sm text-white">検証</p>
+              <p class="text-[11px] text-slate-400 mt-0.5">プロトタイプ現場投入</p>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-slate-800/90 border border-slate-700 hover:border-brand-red transition-colors">
+              <span class="inline-block font-display text-xs font-extrabold text-brand-red mb-1">STEP 6</span>
+              <p class="font-bold text-sm text-white">アセスメント</p>
+              <p class="text-[11px] text-slate-400 mt-0.5">現場フィードバック収集</p>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-slate-800/90 border border-slate-700 hover:border-brand-red transition-colors">
+              <span class="inline-block font-display text-xs font-extrabold text-brand-red mb-1">STEP 7</span>
+              <p class="font-bold text-sm text-white">改修</p>
+              <p class="text-[11px] text-slate-400 mt-0.5">その場でのチューニング</p>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-slate-800/90 border border-slate-700 hover:border-brand-red transition-colors">
+              <span class="inline-block font-display text-xs font-extrabold text-brand-red mb-1">STEP 8</span>
+              <p class="font-bold text-sm text-white">テスト</p>
+              <p class="text-[11px] text-slate-400 mt-0.5">実業務での有効性確認</p>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-4 border-t border-slate-800 flex items-center justify-between text-xs text-rose-300">
+            <span>数日サイクルで 3〜8 を反復し精度を極限まで高めます</span>
+            <span class="font-display font-bold">FAST ITERATION</span>
+          </div>
+        </div>
+
+        <!-- PHASE 03 -->
+        <div class="lg:col-span-3 bg-slate-900/90 border border-slate-700 rounded-3xl p-6 sm:p-7 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="px-3 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 font-display text-xs font-extrabold">PHASE 03</span>
+              <span class="text-xs text-slate-400">Enablement</span>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-6">ソリューションの展開</h3>
+            <div class="p-5 rounded-2xl bg-gradient-to-br from-slate-800 to-slate-800/50 border border-emerald-500/30 space-y-3">
+              <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+              </div>
+              <p class="font-extrabold text-base text-white">現場定着・自走化</p>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                本番環境への展開とともに、コード・設計知見・運用ノウハウを貴社チームへ完全移管。内製で継続改善できる状態を実現します。
+              </p>
+            </div>
+          </div>
+          <div class="mt-6 pt-4 border-t border-slate-800 text-xs text-emerald-300 font-medium">
+            ブラックボックスゼロの完遂
+          </div>
+        </div>
+
+      </div>
+
+      <!-- メッセージ引用ブロック -->
+      <div class="reveal max-w-4xl mx-auto">
+        <blockquote class="relative bg-white/5 backdrop-blur-sm border border-white/15 rounded-3xl p-8 sm:p-10 text-center">
+          <div class="text-brand-red font-display text-5xl font-black leading-none mb-2 opacity-80">“</div>
+          <p class="text-lg sm:text-2xl font-bold text-white leading-relaxed tracking-wide">
+            ソフトウェアの価値は、仕様書の精密さではなく、<br class="hidden sm:inline">
+            <span class="text-rose-400 underline decoration-brand-red decoration-2 underline-offset-8">現場の業務が実際に前進したかどうか</span>で決まる。
+          </p>
+          <footer class="mt-4 text-xs sm:text-sm font-display text-slate-400 tracking-wider">
+            — FDE Partner Initiative | Marubeni I-DIGIO Group
+          </footer>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. お問い合わせ・無料相談セクション（CTA & Form） -->
+  <section id="contact" class="py-20 lg:py-28 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        
+        <!-- 左側：案内テキスト -->
+        <div class="lg:col-span-5 space-y-6 reveal">
+          <span class="inline-block font-display text-xs sm:text-sm font-extrabold tracking-widest uppercase text-brand-red">
+            CONTACT &amp; CONSULTATION
+          </span>
+          <h2 class="text-2xl sm:text-4xl font-black text-brand-navy tracking-tight leading-tight">
+            まずは現場の課題をお聞かせください
+          </h2>
+          <p class="text-base text-slate-600 leading-relaxed">
+            「要件定義が固まっていない」「既存ベンダーとの開発が進まない」「社内に開発知見を残したい」など、構想段階でもお気軽にご相談ください。丸紅I-DIGIOグループのFDE担当者が具体的な進め方をご提案いたします。
+          </p>
+
+          <div class="bg-slate-50 rounded-2xl p-6 border border-slate-200/80 space-y-4">
+            <h3 class="font-bold text-brand-navy text-sm flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-brand-red"></span>
+              無料相談・資料請求でわかること
+            </h3>
+            <ul class="space-y-2.5 text-sm text-slate-600">
+              <li class="flex items-center gap-2.5">
+                <svg class="w-4 h-4 text-brand-red shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                <span>FDE支援サービス詳細資料（事例・体制図付き）</span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <svg class="w-4 h-4 text-brand-red shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                <span>貴社課題に対するプロトタイプ構築スコープのご提案</span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <svg class="w-4 h-4 text-brand-red shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                <span>内製化・自走支援に向けた伴走ロードマップ</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 右側：お問い合わせフォーム -->
+        <div class="lg:col-span-7 reveal">
+          <div class="bg-white rounded-3xl p-6 sm:p-10 shadow-soft border border-slate-200">
+            <!-- 送信完了メッセージ（初期は非表示） -->
+            <div id="form-success-message" class="hidden py-12 text-center space-y-5">
+              <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
+                </svg>
+              </div>
+              <h3 class="text-2xl font-black text-brand-navy">お問い合わせを受け付けました</h3>
+              <p class="text-sm sm:text-base text-slate-600 max-w-md mx-auto leading-relaxed">
+                ご連絡いただきありがとうございます。丸紅I-DIGIOグループ FDE推進担当より、1〜2営業日以内に資料のご案内および日程調整のご連絡を差し上げます。
+              </p>
+              <div class="pt-4">
+                <button type="button" id="reset-form-btn" class="px-6 py-3 rounded-xl border border-slate-300 text-sm font-bold text-slate-700 hover:bg-slate-50 transition-colors">
+                  フォームに戻る
+                </button>
+              </div>
+            </div>
+
+            <!-- 入力フォーム本体 -->
+            <form id="fde-contact-form" novalidate class="space-y-6">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <!-- 会社名 -->
+                <div>
+                  <label for="company" class="block text-sm font-bold text-brand-navy mb-2">
+                    貴社名 <span class="text-brand-red">*</span>
+                  </label>
+                  <input type="text" id="company" name="company" required placeholder="例：丸紅株式会社"
+                    class="w-full px-4 py-3.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-red/20 focus:border-brand-red transition-all">
+                  <p class="error-msg hidden text-xs text-brand-red font-medium mt-1.5">貴社名を入力してください。</p>
+                </div>
+
+                <!-- お名前 -->
+                <div>
+                  <label for="name" class="block text-sm font-bold text-brand-navy mb-2">
+                    お名前 <span class="text-brand-red">*</span>
+                  </label>
+                  <input type="text" id="name" name="name" required placeholder="例：山田 太郎"
+                    class="w-full px-4 py-3.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-red/20 focus:border-brand-red transition-all">
+                  <p class="error-msg hidden text-xs text-brand-red font-medium mt-1.5">お名前を入力してください。</p>
+                </div>
+              </div>
+
+              <!-- メールアドレス -->
+              <div>
+                <label for="email" class="block text-sm font-bold text-brand-navy mb-2">
+                  ビジネス用メールアドレス <span class="text-brand-red">*</span>
+                </label>
+                <input type="email" id="email" name="email" required placeholder="例：taro.yamada@example.co.jp"
+                  class="w-full px-4 py-3.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-red/20 focus:border-brand-red transition-all">
+                <p class="error-msg hidden text-xs text-brand-red font-medium mt-1.5">有効なメールアドレスを入力してください。</p>
+              </div>
+
+              <!-- 現在の課題選択チェックボックス -->
+              <div>
+                <span class="block text-sm font-bold text-brand-navy mb-3">
+                  現在お抱えの課題・ご関心（複数選択可）
+                </span>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <label class="flex items-center gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-brand-red/50 cursor-pointer transition-colors bg-slate-50/50">
+                    <input type="checkbox" name="challenges" value="戦略のみで停止" class="w-4 h-4 accent-brand-red rounded">
+                    <span class="text-xs sm:text-sm font-medium text-slate-700">コンサル提言が実装に進まない</span>
+                  </label>
+                  <label class="flex items-center gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-brand-red/50 cursor-pointer transition-colors bg-slate-50/50">
+                    <input type="checkbox" name="challenges" value="要件定義の長期化" class="w-4 h-4 accent-brand-red rounded">
+                    <span class="text-xs sm:text-sm font-medium text-slate-700">要件定義が長期化している</span>
+                  </label>
+                  <label class="flex items-center gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-brand-red/50 cursor-pointer transition-colors bg-slate-50/50">
+                    <input type="checkbox" name="challenges" value="現場との乖離" class="w-4 h-4 accent-brand-red rounded">
+                    <span class="text-xs sm:text-sm font-medium text-slate-700">現場に定着するシステムを作りたい</span>
+                  </label>
+                  <label class="flex items-center gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-brand-red/50 cursor-pointer transition-colors bg-slate-50/50">
+                    <input type="checkbox" name="challenges" value="完全内製化・自走支援" class="w-4 h-4 accent-brand-red rounded">
+                    <span class="text-xs sm:text-sm font-medium text-slate-700">丸投げをやめ内製化・自走したい</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- 自由記述欄 -->
+              <div>
+                <label for="message" class="block text-sm font-bold text-brand-navy mb-2">
+                  ご相談内容・プロジェクト背景（任意）
+                </label>
+                <textarea id="message" name="message" rows="4" placeholder="対象業務や検討中のテーマ、資料請求のご希望などをご自由にご記入ください。"
+                  class="w-full px-4 py-3.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-red/20 focus:border-brand-red transition-all"></textarea>
+              </div>
+
+              <!-- 送信ボタン -->
+              <div>
+                <button type="submit" class="w-full py-4 px-8 rounded-2xl bg-brand-red text-white font-bold text-base hover:bg-brand-redDark transition-all shadow-glow-red flex items-center justify-center gap-2">
+                  <span>無料相談・サービス資料を請求する</span>
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                  </svg>
+                </button>
+                <p class="text-[11px] text-slate-400 text-center mt-3">
+                  ※ご入力いただいた情報は、丸紅I-DIGIOグループの個人情報保護方針に基づき厳重に管理いたします。
+                </p>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. フッター -->
+  <footer class="bg-brand-navy text-slate-400 border-t border-slate-800 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 pb-8 border-b border-slate-800">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-brand-red flex items-center justify-center text-white font-display font-extrabold text-base">
+            FDE
+          </div>
+          <div>
+            <p class="font-display font-bold text-white text-base">
+              FDE Partner Initiative <span class="text-slate-500 mx-1">|</span> Marubeni I-DIGIO Group
+            </p>
+            <p class="text-xs text-slate-400 mt-0.5">
+              現場に入り込み、最短で動く成果物を作るテックパートナー
+            </p>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap gap-6 text-xs sm:text-sm font-medium">
+          <a href="#challenges" class="hover:text-white transition-colors">課題</a>
+          <a href="#about-fde" class="hover:text-white transition-colors">FDEとは</a>
+          <a href="#comparison" class="hover:text-white transition-colors">比較優位性</a>
+          <a href="#stance" class="hover:text-white transition-colors">共創スタンス</a>
+          <a href="#workflow" class="hover:text-white transition-colors">導入プロセス</a>
+          <a href="#contact" class="text-rose-400 hover:text-rose-300 transition-colors">お問い合わせ</a>
+        </div>
+      </div>
+
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+        <p>&copy; Marubeni I-DIGIO Holdings / Marubeni I-DIGIO Group. All Rights Reserved.</p>
+        <p class="font-display">Forward Deployed Engineer Support Service</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- インタラクティブ制御スクリプト -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. モバイルメニュー開閉制御
+      const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const iconOpen = document.getElementById('menu-icon-open');
+      const iconClose = document.getElementById('menu-icon-close');
+      const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+
+      function toggleMobileMenu() {
+        const isHidden = mobileMenu.classList.contains('hidden');
+        if (isHidden) {
+          mobileMenu.classList.remove('hidden');
+          iconOpen.classList.add('hidden');
+          iconClose.classList.remove('hidden');
+        } else {
+          mobileMenu.classList.add('hidden');
+          iconOpen.classList.remove('hidden');
+          iconClose.classList.add('hidden');
+        }
+      }
+
+      if (mobileMenuBtn) {
+        mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+      }
+
+      mobileLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.add('hidden');
+          iconOpen.classList.remove('hidden');
+          iconClose.classList.add('hidden');
+        });
+      });
+
+      // 2. スクロールフェードインアニメーション (IntersectionObserver)
+      const revealElements = document.querySelectorAll('.reveal');
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.12,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      revealElements.forEach(el => revealObserver.observe(el));
+
+      // 3. ポジショニングマトリクス インタラクティブ切り替え
+      const modelData = {
+        fde: {
+          badge: '★ 推奨アプローチ（空白地帯を埋める新モデル）',
+          badgeClass: 'bg-brand-red text-white',
+          title: '当社のFDE支援サービス',
+          desc: '戦略コンサルティングの「業務課題への深い洞察」と、エンジニアリングの「高速実装力」を融合。現場の最前線に常駐し、仕様書作成に時間をかけることなく動くプロトタイプで業務を前進させます。',
+          points: [
+            '<strong>立ち上がり速度：</strong>数日単位で動くプロトタイプを構築',
+            '<strong>柔軟性：</strong>現場のフィードバックを即座に反映',
+            '<strong>資産化：</strong>ソースコードと知見をすべて移管し内製化'
+          ]
+        },
+        consulting: {
+          badge: '比較対象 A：上流提言特化型',
+          badgeClass: 'bg-slate-700 text-slate-200',
+          title: '戦略・ITコンサルティング',
+          desc: '経営課題の整理やDXロードマップ策定など上流工程に強みを持ちますが、実際のシステム実装や現場定着は顧客自身や別ベンダーに委ねられるため、実行段階で停滞するケースが少なくありません。',
+          points: [
+            '<strong>強み：</strong>経営戦略・業務プロセスの体系的な整理',
+            '<strong>課題：</strong>実装フェーズへの移行に時間と別コストが発生',
+            '<strong>現場感：</strong>会議室でのヒアリング中心で現場の真因を見落としやすい'
+          ]
+        },
+        sier: {
+          badge: '比較対象 B：ウォーターフォール型',
+          badgeClass: 'bg-slate-700 text-slate-200',
+          title: '従来型SIer・受託開発',
+          desc: '確定した要件定義書に基づき大規模で堅牢なシステムを構築するのに適していますが、開発着手までに長期の仕様策定が必要となり、変化の速い現場課題やアジャイルな改善には不向きです。',
+          points: [
+            '<strong>強み：</strong>大規模基幹システム等の確定仕様に対する高い品質管理',
+            '<strong>課題：</strong>仕様変更のたびに追加見積と期間延長が発生',
+            '<strong>知見移転：</strong>納品後の運用・改修がブラックボックス化しやすい'
+          ]
+        },
+        ses: {
+          badge: '比較対象 C：労働力補充型',
+          badgeClass: 'bg-slate-700 text-slate-200',
+          title: 'SES・スポット技術派遣',
+          desc: '不足している開発リソースを時間単位で補うには有効ですが、基本的に顧客側からの指示待ちとなるため、業務課題の抽出や事業視点でのソリューション提案、組織の自走化までは担えません。',
+          points: [
+            '<strong>強み：</strong>特定の技術スキルを持つ人員の迅速な確保',
+            '<strong>課題：</strong>要件定義や業務改善の企画は顧客側で完結させる必要あり',
+            '<strong>組織支援：</strong>エンジニア個人のスキルに依存し、組織的なバックアップが薄い'
+          ]
+        }
+      };
+
+      const matrixCards = document.querySelectorAll('.matrix-card');
+      const detailBadge = document.getElementById('detail-badge');
+      const detailTitle = document.getElementById('detail-title');
+      const detailDesc = document.getElementById('detail-desc');
+      const detailPoints = document.getElementById('detail-points');
+
+      function updateMatrixDetail(modelKey) {
+        const data = modelData[modelKey];
+        if (!data) return;
+
+        // カードのアクティブスタイル更新
+        matrixCards.forEach(card => {
+          const isTarget = card.dataset.model === modelKey;
+          if (isTarget) {
+            if (modelKey === 'fde') {
+              card.className = 'matrix-card active-matrix text-left p-4 sm:p-5 rounded-2xl border-2 border-brand-red bg-brand-redLight/70 shadow-glow-red transition-all focus:outline-none relative overflow-hidden';
+            } else {
+              card.className = 'matrix-card active-matrix text-left p-4 sm:p-5 rounded-2xl border-2 border-brand-navy bg-white shadow-card transition-all focus:outline-none';
+            }
+          } else {
+            if (card.dataset.model === 'fde') {
+              card.className = 'matrix-card text-left p-4 sm:p-5 rounded-2xl border-2 border-brand-red/40 bg-brand-redLight/30 hover:border-brand-red transition-all focus:outline-none relative overflow-hidden';
+            } else {
+              card.className = 'matrix-card text-left p-4 sm:p-5 rounded-2xl border-2 border-slate-200 bg-slate-50/80 hover:border-slate-400 transition-all focus:outline-none';
+            }
+          }
+        });
+
+        // 詳細パネル更新
+        detailBadge.textContent = data.badge;
+        detailBadge.className = `px-3 py-1 rounded-full text-xs font-bold tracking-wide ${data.badgeClass}`;
+        detailTitle.textContent = data.title;
+        detailDesc.textContent = data.desc;
+        detailPoints.innerHTML = data.points.map(pt => `
+          <div class="flex items-start gap-3">
+            <span class="w-5 h-5 rounded-full ${modelKey === 'fde' ? 'bg-brand-red/20 text-brand-red' : 'bg-slate-700 text-slate-300'} flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">✓</span>
+            <span class="text-sm text-slate-200">${pt}</span>
+          </div>
+        `).join('');
+      }
+
+      matrixCards.forEach(card => {
+        card.addEventListener('click', () => updateMatrixDetail(card.dataset.model));
+        card.addEventListener('mouseenter', () => updateMatrixDetail(card.dataset.model));
+      });
+
+      // 4. お問い合わせフォーム バリデーション＆送信フィードバック
+      const contactForm = document.getElementById('fde-contact-form');
+      const successMessage = document.getElementById('form-success-message');
+      const resetFormBtn = document.getElementById('reset-form-btn');
+
+      if (contactForm) {
+        contactForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          let isValid = true;
+
+          const companyInput = document.getElementById('company');
+          const nameInput = document.getElementById('name');
+          const emailInput = document.getElementById('email');
+
+          // バリデーションヘルパー
+          function validateField(input, condition) {
+            const errorEl = input.parentElement.querySelector('.error-msg');
+            if (!condition) {
+              input.classList.add('border-brand-red', 'bg-brand-redLight/20');
+              if (errorEl) errorEl.classList.remove('hidden');
+              isValid = false;
+            } else {
+              input.classList.remove('border-brand-red', 'bg-brand-redLight/20');
+              if (errorEl) errorEl.classList.add('hidden');
+            }
+          }
+
+          validateField(companyInput, companyInput.value.trim().length > 0);
+          validateField(nameInput, nameInput.value.trim().length > 0);
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          validateField(emailInput, emailRegex.test(emailInput.value.trim()));
+
+          if (isValid) {
+            contactForm.classList.add('hidden');
+            successMessage.classList.remove('hidden');
+            successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        });
+      }
+
+      if (resetFormBtn) {
+        resetFormBtn.addEventListener('click', () => {
+          contactForm.reset();
+          contactForm.classList.remove('hidden');
+          successMessage.classList.add('hidden');
+        });
+      }
+    });
+  </script>
+</body>
+</html>
